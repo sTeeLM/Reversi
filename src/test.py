@@ -8,9 +8,9 @@ from player import Player
 
 w_player = MachinePlayer(Player.PLAYER_WHITE, 
                          "Mr. White", MachinePlayer.BRAIN_LEVEL_0)
-b_player = MachinePlayer(Player.PLAYER_BLACK, 
-                         "Mr. Black", MachinePlayer.BRAIN_LEVEL_0)
-#b_player = HumanPlayer(Player.PLAYER_BLACK, "Mr. Black")
+#b_player = MachinePlayer(Player.PLAYER_BLACK, 
+#                         "Mr. Black", MachinePlayer.BRAIN_LEVEL_0)
+b_player = HumanPlayer(Player.PLAYER_BLACK, "Mr. Black")
 
 cb = CheckerBoard(8, w_player, b_player)
 

@@ -9,9 +9,11 @@ class HumanPlayer(Player):
         super(HumanPlayer, self).__init__(role, name)
         
     def make_decision(self, board, moves):
-        sys.stdout.write('Possibel Moves: ')
+        sys.stdout.write('------------------------\n')
+        board.dump(sys.stdout)
+        sys.stdout.write('Possible Moves: ')
         for i in moves:
-            i.dump(sys.stdout)
+            sys.stdout.write(str(i))        
         sys.stdout.write('\n')
         (x, y) = sys.stdin.readline().strip().split(' ')
         x = int(x)
@@ -20,3 +22,9 @@ class HumanPlayer(Player):
             return CheckerBoard.Move(self.role, x, y)
         else:
             return CheckerBoard.Move(self.role, x, y, True)
+        
+    def notify_diff(self, diffs):
+        sys.stdout.write('Create Diffs: ')
+        for i in diffs:
+            sys.stdout.write(str(i))
+        sys.stdout.write('\n')

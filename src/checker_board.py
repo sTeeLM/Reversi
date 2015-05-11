@@ -3,7 +3,7 @@
 import re
 import sys
 from player import Player
-from exp import ReversiInvalidParam, ReversiInvalidMove, ReversiInternalError
+from exp import ReversiInvalidParam, ReversiInvalidMove
 from debug import CheckerLog
 
 logger = CheckerLog(sys.stdout)
@@ -38,7 +38,7 @@ class CheckerBoard(object):
             self.diffs = []
         def push(self, diff):
             if not isinstance(diff, CheckerBoard.Diff):
-                raise ReversiInvalidParam
+                raise ReversiInvalidParam('pushed diff must be CheckerBoard.Diff')
             self.diffs.append(diff)
             return self
             
@@ -62,7 +62,7 @@ class CheckerBoard(object):
             elif (left, right, up, down) == (0, 0, 0, 0):
                 return 'C'
             else:
-                raise ReversiInvalidParam     
+                raise ReversiInvalidParam('invalid direction')
         def __str__(self):
             tmp = '[{0}'.format(self.\
                                 _val_direction_str(self.left, 
@@ -82,7 +82,7 @@ class CheckerBoard(object):
             self.y = y
             self.skip = skip
             if self.role != Player.PLAYER_WHITE and self.role != Player.PLAYER_BLACK:
-                raise ReversiInvalidParam
+                raise ReversiInvalidParam('invalid role')
         def __str__(self):
             return '[{0},{1},{2},{3}]'.format(
                     'b' if self.role == Player.PLAYER_BLACK else 'w',
@@ -98,9 +98,9 @@ class CheckerBoard(object):
             not isinstance(self.b_player, Player) or  \
             (w_player.role != Player.PLAYER_WHITE) or \
             (b_player.role != Player.PLAYER_BLACK) :
-            raise ReversiInvalidParam
+            raise ReversiInvalidParam('invalid player')
         if size <= 0:
-            raise ReversiInvalidParam
+            raise ReversiInvalidParam('invalid size')
         self.data_array = [[0 for i in xrange(0, size)] \
                            for j in xrange(0, size)]
         self.data_array[3][3] = Player.PLAYER_WHITE
@@ -148,15 +148,15 @@ class CheckerBoard(object):
     def play(self, move, diffs_list):
         # 一般合法性检查
         if not isinstance(move, CheckerBoard.Move):
-            raise ReversiInvalidParam
+            raise ReversiInvalidParam('move must be instance of CheckerBoard.Move')
         if self.next_player.role != move.role:
-            raise ReversiInvalidMove
+            raise ReversiInvalidMove('move.role must be next_player.role')
         if self.status != CheckerBoard.STATUS_IN_PROGRESS:
-            raise ReversiInvalidMove
+            raise ReversiInvalidMove('game already over')
         # 如果不是空步骤，并且不是可能的步骤
         if not move.skip and not self.\
         		_is_possible_move(move.x, move.y, move.role):
-            raise ReversiInvalidMove
+            raise ReversiInvalidMove('not a possible move')
         
         saved_player = self.next_player
         
@@ -164,7 +164,7 @@ class CheckerBoard(object):
         tmp = self.get_possible_moves(self.next_player)
         if len(tmp) != 1 or not tmp[0].skip:
             if move.skip:
-                raise ReversiInvalidMove
+                raise ReversiInvalidMove('try to skip, but one can play')
          
         # 开始搞了    
         self.round += 1  

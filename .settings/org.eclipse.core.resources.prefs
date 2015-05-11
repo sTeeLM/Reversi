@@ -1,6 +1,7 @@
 eclipse.preferences.version=1
 encoding//src/checker_board.py=utf-8
 encoding//src/exp.py=utf-8
+encoding//src/human_player.py=utf-8
 encoding//src/machine_player.py=utf-8
 encoding//src/player.py=utf-8
 encoding//src/test.py=utf-8
